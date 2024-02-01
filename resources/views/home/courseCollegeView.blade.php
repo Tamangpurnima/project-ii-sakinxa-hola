@@ -5,7 +5,6 @@
         <!-- Display course details when there are records -->
         <ul>
             @foreach ($courseDetails as $detail)
-                <li>Description: {{ $detail->college->name }}</li>
                 <div class="col-lg-4 course_box border border-2">
 					<div class="card">
 						<br/>
@@ -15,7 +14,7 @@
 						</div>
 						<br/>
 						<div class="d-flex justify-content-center">
-							<a href="/">
+							<a href="/college/detail/course/description/{{$detail->id}}">
 								<button class="btn btn-primary">View</button>
 							</a>
 						</div>
@@ -28,9 +27,5 @@
         <!-- Display a "No data" message when there are no records -->
         <p>No data available.</p>
     @endif
-
-    <a href="/view/course-detail">
-        <button class="btn btn-primary">View</button>
-    </a>
 </div>
 @endsection

@@ -15,6 +15,8 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CollegeDashboardController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AlgorithmController;
 
 Auth::routes();
 
@@ -43,6 +45,15 @@ Route::prefix('student')->group(function () {
     Route::get('/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
 });
 
+
+Route::get('/myprofile-edit', [StudentController::class, 'edit'])->name('student.editForm');
+Route::post('/myprofile-update/{id}', [StudentController::class, 'update'])->name('students.update');
+
+// Route::put('/myprofile-edit',[StudentController::class, 'update'])->name('students')
+//     return view('home.myprofileedit');
+// });
+Route::get('storage/logo/{filename}', [ImageController::class, 'show'])->name('logo.show');
+
 //open link
 Route::get('/', function () {
     return view('home.index');
@@ -50,9 +61,9 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/recommend', function () {
-    return view('home.recommend');
-});
+// Route::get('/recommend', function () {
+//     return view('home.recommend');
+// });
 Route::get('/college', [CollegeController::class, 'showForStudent'])->name('college.showForStudent');
 
 Route::get('/aboutus', function () {
@@ -73,17 +84,23 @@ Route::get('/view/courses/colleges', function () {
 Route::get('/view/course-detail', function () {
     return view('home.viewCollegeCourseDetail');
 });
-Route::get('/inquiry', function () {
-    return view('home.inquiry');
-})->name('inquiry.home');
 
 
+Route::get('/inquiry', [StudentController::class, 'getInquiries'])->name('student.getInquiries');
+
+Route::get('/myprofile', [StudentController::class, 'getById'])->name('student.getById');
+// Route::post('/myprofile/update', [StudentController::class, 'update'])->name('students.update');
+
+
+Route::get('/changepassword', function () {
+    return view('home.change');
+});
 //inquiry routes
 Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
 Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
 Route::get('/inquiry/show', [InquiryController::class, 'show'])->name('inquiry.show');
 Route::get('/inquiry/edit/{id}', [InquiryController::class, 'edit'])->name('inquiry.edit');
-Route::put('/inquiry/update/{id}', [InquiryController::class, 'update'])->name('inquiry.update');
+Route::post('/inquiry/update/{id}', [InquiryController::class, 'update'])->name('inquiry.update');
 Route::get('/inquiry/delete/{id}', [InquiryController::class, 'destroy'])->name('inquiry.destroy');
 
 
@@ -101,6 +118,7 @@ Route::get('/view/course/description/{id}', [CourseController::class, 'getByIdfo
 Route::get('/view/course/description/college/{id}', [CourseDetailController::class, 'getCollegeByCourseId'])->name('course.getCollegeByCourseId');
 
 Route::get('/college/detail/course/description/{id}', [CourseDetailController::class, 'getById'])->name('coursedetail.getById');
+Route::get('/inquiry/create/{id}', [InquiryController::class, 'makeInquiry'])->name('inquity.createForStudent');
 
 
 Route::post('/register/student', [StudentController::class, 'store'])->name('students.store');
@@ -174,17 +192,18 @@ Route::middleware(['auth:student'])->group(function () {
 
 
 Route::middleware(['auth:college'])->group(function () {
-    Route::get('/college/dashboard', [CollegeDashboardController::class, 'count'])->name('college.dashboard');
-    Route::get('/college/edit-profile', function(){
-        return view('college.edit');
-    });
-    Route::get('/college/view-inquiry', [InquiryController::class, 'showForCollege'])->name('college.inquiryshow');
-    Route::get('/college/inquiry/edit/{id}', [InquiryController::class, 'editForCollege'])->name('college.inquiryedit');
-    Route::get('/college/course-detail', [CourseDetailController::class, 'showForCollege'])->name('college.coursedetail.show');
-    Route::get('/college/coursedetail/edit/{id}', [CourseDetailController::class, 'editCourseDetail'])->name('coursedetail.editCourseDetail');
-    Route::put('/coursedetail/update/{id}', [CourseDetailController::class, 'updateForCollege'])->name('college-coursedetail.update');
+
 
 });
+
+Route::get('/college/dashboard', [CollegeDashboardController::class, 'count'])->name('college.dashboard');
+Route::get('/college/edit-profile/', [CollegeController::class, 'getEditForm'])->name('college.editForm');
+Route::post('/college/update/', [CollegeController::class, 'update'])->name('college.update');
+Route::get('/college/view-inquiry', [InquiryController::class, 'showForCollege'])->name('college.inquiryshow');
+Route::get('/college/inquiry/edit/{id}', [InquiryController::class, 'editForCollege'])->name('college.inquiryedit');
+Route::get('/college/course-detail', [CourseDetailController::class, 'showForCollege'])->name('college.coursedetail.show');
+Route::get('/college/coursedetail/edit/{id}', [CourseDetailController::class, 'editCourseDetail'])->name('coursedetail.editCourseDetail');
+Route::put('/coursedetail/update/{id}', [CourseDetailController::class, 'updateForCollege'])->name('college-coursedetail.update');
 
 Route::get('/college/detail/{id}', [CollegeController::class, 'getByIdForStudent'])->name('college.getByIdForStudent');
 Route::get('/college/inquiry/givedate', function(){
@@ -194,4 +213,7 @@ Route::get('/college/inquiry/givedate', function(){
 Route::get('/college/course/view', function(){
     return view('college.viewcollegedes');
 });
+
+Route::get('/recommend', [AlgorithmController::class, 'recommend'])->name('algorithm.recommend');
+
 

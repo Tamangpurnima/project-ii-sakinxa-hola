@@ -2,7 +2,7 @@
 @section('content')
 <head><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-    <div class="container" style="margin-top: 200px">
+    <div class="container" style="margin-top: 200px, height: 100px">
     <div class="container form-container" style="margin-top: 200px">
    
         <h2 class="text-center">College Form</h2>

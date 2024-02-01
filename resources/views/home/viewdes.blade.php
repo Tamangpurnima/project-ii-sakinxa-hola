@@ -9,6 +9,11 @@
 </head>
 <div class="container mt-5">
         <h1 class="text-center">Course Description</h1>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -59,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <a href="/college/detail/course/description/{id}"><button type="button" class="btn btn-primary">Inquiry</button></a>
+        <a href="/inquiry/create/{{$courseDetail->id}}"><button type="button" class="btn btn-primary">Inquiry</button></a>
     </div>
     @endsection
     <!-- Include Bootstrap JS and jQuery (optional) -->

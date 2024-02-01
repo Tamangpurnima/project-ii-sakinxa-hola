@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Inquiry;
+
 
 class Students extends Authenticatable
 {
@@ -21,5 +23,11 @@ class Students extends Authenticatable
         'gpa',
         'interest',
         'goal',
+        'educationLevel',
     ];
+
+    public function inquiries()
+    {
+        return $this->hasMany(Inquiry::class, 'student_id');
+    }
 }

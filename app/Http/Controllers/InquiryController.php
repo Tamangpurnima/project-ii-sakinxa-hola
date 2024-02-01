@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
+use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class InquiryController extends Controller
 {
@@ -71,7 +75,8 @@ class InquiryController extends Controller
        
     public function showForCollege(Inquiry $inquiry)
         {
-            $inquiry=Inquiry::all();
+            // $inquiry=Inquiry::all();
+            $inquiry = Inquiry::with('student')->get();
             return view('college.inquiry',['inquiry'=>$inquiry]);
         }
        
@@ -104,15 +109,39 @@ class InquiryController extends Controller
      * @param  \App\Models\Inqyiry  $inqyiry
      * @return \Illuminate\Http\Response
      */
+    // public function update(Request $request, $id)
+    // {
+        
+    //     $inquiry = Inquiry::find($id);
+    //     $inquiry->inquirydate = $request->input('inquirydate');
+    //     $inquiry->save();
+    
+    //    return redirect()->route('inquiry.show');
+    // }
+
     public function update(Request $request, $id)
     {
-        
+        // Validate the request data
+        $validatedData = $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        // Find the inquiry by ID
         $inquiry = Inquiry::find($id);
-        $inquiry->inquirydate = $request->input('inquirydate');
-        $inquiry->save();
-    
-       return redirect()->route('inquiry.show');
+
+        // Check if the inquiry exists
+        if (!$inquiry) {
+            return redirect()->back()->with('error', 'Inquiry not found.');
+        }
+
+        // Update the inquiry with the validated data
+        $inquiry->update([
+            'message' => $validatedData['message'],
+        ]);
+
+        return redirect()->route('college.inquiryshow')->with('success', 'Inquiry updated successfully.');
     }
+
     
 
     /**
@@ -125,6 +154,18 @@ class InquiryController extends Controller
     {
         $inquiry=Inquiry::find($id);
         $inquiry->delete();
-        return redirect('inquiry/show');
+        return redirect()->route('student.getInquiries');
+
+    }
+    public function makeInquiry($id){
+        $currentStudent = Auth::guard('student')->user();
+        $inquiry = new Inquiry([
+            'student_id' => $currentStudent->id,
+            'coursedetail_id' => $id,
+            'message' => "",
+            'inquirydate' => Carbon::now(),
+        ]);
+        $inquiry->save();
+        return redirect()->back()->with('success', 'Inquiry created successfully');
     }
 }

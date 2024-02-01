@@ -19,7 +19,7 @@
             <!-- <img src="/logo.jpg" alt=""> -->
             <span class="nav-item">
               @auth('college')
-                  <p>Welcome, {{ Auth::guard('admin')->user()->name }}</p>
+                  <p>Welcome,  {{ Auth::guard('admin')->user()->name }}</p>
               @endauth
             </span>
           </a>

@@ -40,9 +40,7 @@
         }
     </style>
 </head>
-@auth('college')
-    <p>Welcome, {{ Auth::guard('college')->user()->id }}</p>
-@endauth
+
     <div class="container">
         <h2>Course Details</h2>
         <form id="myForm" action="{{ route('coursedetail.store') }}" method="POST">

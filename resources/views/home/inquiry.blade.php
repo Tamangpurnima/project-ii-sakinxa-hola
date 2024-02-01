@@ -20,8 +20,8 @@
                     <input type="int" class="form-control" id="collegedetailid" name="collegedetail_id" required>
                 </div>
                 <div class="mb-3">
-                    <label for="inquiryDate" class="form-label">Date</label>
-                    <input type="date" class="form-control" id="inquiryDate" name="inquirydate" required>
+                    <label for="text" class="form-label">Message</label>
+                    <input type="text" class="form-control" id="message" name="message" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Inquiry</button>
             </form>

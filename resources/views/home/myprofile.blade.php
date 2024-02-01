@@ -15,6 +15,43 @@
 <link rel="stylesheet" type="text/css" href="{{asset('home/styles/main_styles.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('home/styles/responsive.css')}}">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .profile {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .profile img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+
+        .profile h2 {
+            margin: 10px 0;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h3 {
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -23,8 +60,38 @@
     <x-navbar/>
 
     <div class="container" style="margin-top: 200px">
-    <h1 class="text-center">My Profile Page</h2>
-	</div>
+    <div class="profile">
+        <img src="{{ asset('storage/uploads/' . $student->image) }}" alt="Student Image" style="height: 100px; width: 100px; margin-top: 10px; border: 2px solid black;">
+        <h2>{{$student->name}}</h2>
+        <p>Email: {{$student->email}}</p>
+        <p>Contact: {{$student->contact}}</p>
+    </div>
+
+
+    <div class="section">
+        <h3>Academic Information</h3>
+        <p>Education Level:{{$student->educationLevel}}</p>
+        <p>Passed Year: {{$student->passedyear}}</p>
+        <p>Previous School/College: {{$student->previousschool}}</p>
+        <p>GPA: {{$student->gpa}}</p>
+    </div>
+
+    <div class="section">
+        <h3>Interests</h3>
+        {{$student->interest}}
+    </div>
+
+    <div class="section">
+        <h3>Goals</h3>
+        {{$student->goal}}
+    </div>
+	<div class="col-md-4">
+                <div class="text-center">
+                    <a  href="/myprofile-edit">
+                    <button class="btn btn-primary mt-4">Edit Profile</button>
+                    </a>
+                </div>
+    </div>
 
 </div>
 

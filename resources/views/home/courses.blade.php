@@ -29,13 +29,13 @@
 
 	<div class="popular page_section">
 		<div class="container">
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col">
 					<div class="section_title text-center">
 						<h1>Courses</h1>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="row course_boxes">
 				@foreach($course as $course)

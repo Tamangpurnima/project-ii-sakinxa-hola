@@ -9,6 +9,6 @@
 </style>
 <div class="footer">
     <footer>
-        &copy; 2023 All rights reserved.OAS
+        &copy; copyright 2023 OAS. All rights reserved.
     </footer> 
 </div>

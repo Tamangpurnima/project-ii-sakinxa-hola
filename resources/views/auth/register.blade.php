@@ -89,7 +89,15 @@
                 <div class="form-section">
                     <h3>Academic Details</h3>
                     <div class="form-group">
-                        <label for="passedYear">Passed Year:</label>
+                        <label for="educationLevel">Education Level:</label>
+                        <select id="educationLevel" name="educationLevel" required>
+                            <option value="SEE">SEE</option>
+                            <option value="+2">+2</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passedYear">Passed year:</label>
                         <input type="text" id="passedYear" name="passedYear" placeholder="Enter Passed Year" required>
                     </div>
                     <div class="form-group">

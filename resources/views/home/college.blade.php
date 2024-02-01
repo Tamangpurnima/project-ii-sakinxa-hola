@@ -24,39 +24,21 @@
 
 	<div class="popular page_section">
 		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title text-center">
-						<h1>Popular Courses</h1>
+				<!-- <div class="row">
+					<div class="col">
+						<div class="section_title text-center">
+							<h1>Popular Courses</h1>
+						</div>
 					</div>
-				</div>
-			</div>
+				</div> -->
 
 			<div class="row course_boxes">
-
-				<!-- Popular Course Item -->
-				<div class="col-lg-4 course_box">
-					<div class="card">
-						<img class="card-img-top" src="images/college_logo">
-						<div class="card-body text-center">
-							<div class="card-title"><a href="courses.html">College Name</a></div>
-							<div class="card-text">Address</div>
-						</div>
-						<br/>
-						<div class="d-flex justify-content-center">
-							<a href="/college/detail">
-								<button class="btn btn-primary">View</button>
-							</a>
-						</div>
-						<br/>
-					</div>
-				</div>
 
 				@foreach($college as $college)
 				<div class="col-lg-4 course_box">
 					<div class="card">
-						<img class="card-img-top" src="images/college_logo">
 						<div class="card-body text-center">
+						<img src="{{ asset('storage/' . $college->logo) }}" alt="College Logo" style="height: 100px; width:100px; margin-top: 10px; border: 2px solid black;">
 							<div class="card-title"><a href="courses.html">{{$college->name}}</a></div>
 							<div class="card-text">{{$college->address}}</div>
 						</div>

@@ -12,7 +12,7 @@
                 <th>ID</th>
                 <th>Student Id</th>
                 <th>CourseDetail Id</th>
-                <th>Inquiry Date</th>
+                <th>Message</th>
                 <th>Delete</th>
                 <th>Edit</th>
 
@@ -22,7 +22,7 @@
                 <td>{{$inquiry->id}}</td>
                 <td>{{$inquiry->student_id}}</td>
                 <td>{{$inquiry->collegedetail_id}}</td>
-                <td>{{$inquiry->inquirydate}}</td>
+                <td>{{$inquiry->message}}</td>
                 <td><a href="/inquiry/delete/{{$inquiry->id}}" class="btn btn-danger">DELETE</a></td>
                 <td><a href="/admin/inquiry/edit/{{$inquiry->id}}" class="btn btn-success">EDIT</a></td>
             </tr>

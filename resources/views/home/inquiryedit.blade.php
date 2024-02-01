@@ -14,8 +14,8 @@
             <input type="text" class="form-control" id="collegedetailId" name="collegedetail_id" value="{{ $inquiry->collegedetail_id }}" required>
         </div>
         <div class="mb-3">
-            <label for="inquiryDate" class="form-label">Date</label>
-            <input type="date" class="form-control" id="inquiryDate" name="inquirydate" value="{{ $inquiry->inquirydate }}" required>
+            <label for="message" class="form-label">Message</label>
+            <input type="message" class="form-control" id="message" name="message" value="{{ $inquiry->message }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Update Inquiry</button>
     </form>

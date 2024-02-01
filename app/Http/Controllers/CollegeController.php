@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\College;
-
+use App\Models\CollegeImage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class CollegeController extends Controller
 {
@@ -81,41 +84,70 @@ class CollegeController extends Controller
         return view('home.collegeDetailView', compact('college'));
     }
 
+    public function getEditForm(){
+        $currentCollege = Auth::guard('college')->user();
+        // $college = College::find($currentCollege->id);
+        $college = College::with('images')->find($currentCollege->id);
+        return view('college.editForm',compact('college'));
+    }
+
     public function update(Request $request, College $college)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:colleges,email,' . $college->id,
-            'phone' => 'required|string',
-            'contact' => 'required|string',
+        $currentCollege = Auth::guard('college')->user();
+        $oldCollege = College::with('images')->find($currentCollege->id);
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
             'description' => 'required|string',
-            'logo' => 'image|mimes:jpeg,png,jpg,gif',
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust allowed image types and size
+            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust allowed image types and size
         ]);
 
-        // Handle Logo Upload
+        if ($validator->fails()) {
+            return redirect()->route('college.edit', $college->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Update the college record
+        $oldCollege->name = $request->input('name');
+        $oldCollege->address = $request->input('address');
+        $oldCollege->contact = $request->input('contact');
+        $oldCollege->description = $request->input('description');
+
+        // Update logo if a new file is provided
         if ($request->hasFile('logo')) {
             // Delete the old logo file if it exists
-            if ($college->logo) {
-                Storage::disk('public')->delete($college->logo);
+            if ($oldCollege->logo) {
+                Storage::disk('public')->delete($oldCollege->logo);
             }
 
             $logoPath = $request->file('logo')->store('logos', 'public');
-            $data['logo'] = $logoPath;
+            $oldCollege->logo = $logoPath;
         }
 
-        // Update College
-        $college->update($data);
+        $oldCollege->save();
 
-        // Handle Gallery Image Uploads
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $image) {
-                $imagePath = $image->store('gallery', 'public');
-                $college->images()->create(['path' => $imagePath]);
+        $galleryToRemove = $request->input('remove_gallery', []);
+        foreach ($galleryToRemove as $galleryId) {
+            // Assuming you have a Gallery model
+            $gallery = CollegeImage::find($galleryId);
+    
+            if ($gallery) {
+                $gallery->delete();
             }
         }
 
-        return redirect()->route('home')->with('success', 'College updated successfully!');
+        // Update gallery images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $imagePath = $image->store('gallery', 'public');
+                $oldCollege->images()->create(['path' => $imagePath]);
+            }
+        }
+        return redirect()->route('college.editForm', $college->id)->with('success', 'College updated successfully.');
     }
 
     public function activateCollege(College $college)

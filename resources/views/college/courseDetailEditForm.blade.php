@@ -39,9 +39,6 @@
         }
     </style>
 </head>
-@auth('college')
-    <p>Welcome, {{ Auth::guard('college')->user()->id }}</p>
-@endauth
 <div class="container">
     <h2>Edit Course Detail</h2>
     <form id="editForm" action="{{ route('college-coursedetail.update', $courseDetail->id) }}" method="POST">
@@ -49,7 +46,7 @@
         @method('PUT') <!-- Use PUT method for update -->
         <div class="form-group">
             <label for="courseid">Select Course:</label>
-            <select id="courseid" name="course_id" required>
+            <select id="courseid" name="course_id">
                 <option value="" disabled>Select a course</option>
                 @foreach ($courses as $course)
                     <option value="{{ $course->id }}" {{ $course->id == $courseDetail->course_id ? 'selected' : '' }}>{{ $course->name }}</option>
